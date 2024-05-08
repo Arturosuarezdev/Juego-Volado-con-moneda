@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>juego de la moneda</title>
+        <link rel="stylesheet" href="style.css">
+        </head>
+        <body>
+            <div class="container">
+                <!--agregar las imagines pngv de las monedas, cara y cruz-->
+                <div class="moneda" id="moneda">
+
+                <div class="cara">
+                    <img src="img/cara.png" alt="">
+                </div>
+
+                <div class="cruz">
+                <img src="img/cruz.png" alt="">
+                </div>
+            </div>
+                
+                
+                <!--marcador -->
+                <div class="stats">
+                    <p id="cara-count">Cara: 0</p>
+                    <p id="cruz-count">Cruz: 0</p>
+                </div>
+                
+
+                <!-- boton para lanzar moneda y para resetear el juego -->
+                <div class="buttons">
+                    <button id="lanzar-button">Lanzar moneda</button>
+                    <button id="reset-button">Reset</button>
+                    <div id="sonidos"></div>
+                    
+                </div>
+            
+            </div>
+         
+            <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+            <script type="text/javascript">
+                    let moneda = document.querySelector(".moneda");
+    let lanzarBtn = document.querySelector("#lanzar-button");
+    let resetBtn = document.querySelector("#reset-button");
+    //poner variables en 0
+    let cara = 0;
+    let cruz = 0;
+    const sonidos = document.getElementById('sonidos');
+                var comandos;
+                if (annyang){
+                    var comandos = {
+                        'cara': function(){
+                            alert("cara")
+                            
+                        }
+                    };
+    
+                    annyang.addCommands(comandos);
+                    annyang.setLanguage("es-MX");
+    
+                    annyang.start();
+                    
+                
+    
+                }
+                 if (annyang){
+                    var comandos2 = {
+                        'cruz' : function(){
+                            alert("cruz");
+                        }
+                    };
+    
+                    annyang.addCommands(comandos2);
+                    annyang.setLanguage("es-MX");
+    
+                    annyang.start();
+                }
+            </script>         
+<!--activar con java-->
+
+    lanzarBtn.addEventListener("click", ()=>{
+        sonidos.innerHTML = '<audio src="img/mon.aac"autoplay></audio>';
+    
+
+        let i = Math.floor(Math.random() *2);
+        moneda.style.animation = "none";
+
+        if(i){
+            setTimeout(function(){
+                moneda.style.animation = "spin-cara 3s forwards";
+            }, 100);
+            cara = cara+1;
+        }
+        else {
+            setTimeout(function(){
+                moneda.style.animation = "spin-cruz 3s forwards";
+            }, 100);
+            cruz= cruz+1;
+        }
+        setTimeout(updateStats, 3000);
+        disableButton();
+    });
+
+    //activar el contador
+    function updateStats(){
+        document.querySelector("#cara-count").textContent = `Cara: ${cara}`;
+        document.querySelector("#cruz-count").textContent = `Cruz: ${cruz}`;}
+
+
+    //reset
+    resetBtn.addEventListener("click",()=>{
+        moneda.style.animation = "none";
+        cara = 0;
+        cruz = 0;
+        updateStats();
+    });
+</script>
+
+        </body>
+        </html>
